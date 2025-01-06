@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Calorie Counter</title>
+</head>
+<body class="bg-gray-100 mt-40 bg-cover bg-center text-white flex items-center justify-center" style="background-image: url('{{STATIC_URL}} static/css/images/calorie2.png');">
+    <div >
+        <h1 class="text-7xl font-bold mb-6 font-serif">Calorie Counter</h1>
+        <h2 class="text-3xl font-bold font-serif">Total Calories: {{ total_calories }} kcal</h2>
+        
+        <ul class="mb-6  font-serif">
+            {% for food in foods %}
+                <li class="text-1xl">{{ food.name }} - {{ food.calories }} kcal
+                    <a href="{% url 'delete_food' food.id %}" class="text-1xl text-red-500 m-96 px-2 rounded bg-white hover:bg-red-500 hover:text-white">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="mt-4">
+        <a href="{% url 'add_food' %}" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded ">Add Food</a>
+        <a href="{% url 'reset_calories' %}" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded">Reset Calories</a>
+        </div>
+    </div>
+</body>
+</html>
