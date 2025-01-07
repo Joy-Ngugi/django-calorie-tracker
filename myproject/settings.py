@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-8u#mr$t1=gxw$$o5h7^(s*ou8ugy%*!jq8phwzl4twel4r!!_=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,17 +81,20 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'calorie',
+#         'USER': 'joy',
+#         'PASSWORD': 'joyjoy',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'calorie',
-        'USER': 'joy',
-        'PASSWORD': 'joyjoy',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.parse("postgresql://test_blog_9wtd_user:AFQPO00LyhMWof0oi0q1YGmniGanQHDo@dpg-ctucoojtq21c73bhbd50-a.oregon-postgres.render.com/test_blog_9wtd")
+    
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
