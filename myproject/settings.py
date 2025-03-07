@@ -81,20 +81,20 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'calorie',
-#         'USER': 'joy',
-#         'PASSWORD': 'joyjoy',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://test_blog_9wtd_user:AFQPO00LyhMWof0oi0q1YGmniGanQHDo@dpg-ctucoojtq21c73bhbd50-a.oregon-postgres.render.com/test_blog_9wtd")
-    
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'calorie',
+        'USER': 'joy',
+        'PASSWORD': 'joyjoy',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://test_blog_9wtd_user:AFQPO00LyhMWof0oi0q1YGmniGanQHDo@dpg-ctucoojtq21c73bhbd50-a.oregon-postgres.render.com/test_blog_9wtd")
+    
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
