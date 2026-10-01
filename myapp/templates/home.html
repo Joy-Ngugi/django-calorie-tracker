@@ -2,46 +2,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calorie Counter</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+    <style>
+        /* Page-scoped overrides — Tailwind CDN stays loaded for the rest of the site */
+        .cc-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+        .cc-shell {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .cc-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 700;
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .cc-subtitle {
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 500;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 32px;
+        }
+        .cc-total {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 10px;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 32px;
+        }
+        .cc-total-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+        }
+        .cc-total-value {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
+        }
+        .cc-total-unit {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .cc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .cc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .cc-item:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        .cc-item-name {
+            font-weight: 500;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .cc-item-cal {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .cc-item-delete {
+            padding: 6px 14px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .cc-item-delete:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #fff;
+        }
+
+        .cc-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 56px;
+        }
+        .cc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .cc-btn-primary {
+            background: #4f46e5;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        }
+        .cc-btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+        .cc-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .cc-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .cc-info {
+            padding: 32px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 60px;
+            line-height: 1.75;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .cc-info h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .cc-info p {
+            margin: 0 0 16px;
+        }
+        .cc-info ul,
+        .cc-info ol {
+            margin: 0 0 16px 0;
+            padding-left: 22px;
+        }
+        .cc-info li {
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        .cc-info strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        .cc-info > *:last-child {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 mt-40 bg-cover bg-center text-white flex items-center justify-center" style="background-image: url('{{STATIC_URL}} static/images/calorie2.png');">
-    <div >
-        <h1 class="text-7xl font-bold mb-6 font-serif">Calorie Counter</h1>
-        <h2 class="text-3xl font-bold font-serif">Total Calories: {{ total_calories }} kcal</h2>
-        
-        <ul class="mb-6  font-serif">
-            {% for food in foods %}
-                <li class="text-1xl">{{ food.name }} - {{ food.calories }} kcal
-                    <a href="{% url 'delete_food' food.id %}" class="text-1xl text-red-500 m-96 px-2 rounded bg-white hover:bg-red-500 hover:text-white">Delete</a>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="mt-4">
-        <a href="{% url 'add_food' %}" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded ">Add Food</a>
-        <a href="{% url 'reset_calories' %}" class="bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded">Reset Calories</a>
+<body
+    class="bg-gray-100 min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed cc-page"
+    style="background-image: url('{% static 'images/calorie2.png' %}');"
+>
+    <div class="cc-shell py-16">
+
+        <h1 class="cc-title">Calorie Counter</h1>
+        <p class="cc-subtitle">Track what you eat, one meal at a time.</p>
+
+        <div class="cc-total">
+            <span class="cc-total-label">Total</span>
+            <span class="cc-total-value">{{ total_calories }}</span>
+            <span class="cc-total-unit">kcal</span>
         </div>
-        <div class="mt-16 font-semibold mb-56">
-            <p >The number of calories you should consume per day depends on several factors, including your age, sex, activity level, and body size.<br> The Dietary Guidelines for Americans 2020--2025 suggest that the following ranges are appropriate for weight maintenance: </p>
-                <ul class="list-disc pl-20">
+
+        {% if foods %}
+            <ul class="cc-list">
+                {% for food in foods %}
+                    <li class="cc-item">
+                        <span class="cc-item-name">{{ food.name }}</span>
+                        <span class="cc-item-cal">{{ food.calories }} kcal</span>
+                        <a href="{% url 'delete_food' food.id %}" class="cc-item-delete">Delete</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="cc-info" style="margin-bottom: 32px; text-align: center;">
+                <p style="margin: 0;">No food logged yet. Start by adding your first item.</p>
+            </div>
+        {% endif %}
+
+        <div class="cc-actions">
+            <a href="{% url 'add_food' %}" class="cc-btn cc-btn-primary">+ Add Food</a>
+            <a href="{% url 'reset_calories' %}" class="cc-btn cc-btn-secondary">Reset Calories</a>
+        </div>
+
+        <div class="cc-info">
+            <h3>How many calories do you need?</h3>
+
+            <p>
+                The number of calories you should consume per day depends on several factors,
+                including your age, sex, activity level, and body size. The
+                <strong>Dietary Guidelines for Americans 2020–2025</strong> suggest the following
+                ranges are appropriate for weight maintenance:
+            </p>
+
+            <ul>
                 <li>Women: 1,600–2,400 calories</li>
                 <li>Men: 2,200–3,000 calories</li>
-                </ul >
-                <p>However, the average person is generally estimated to consume: </p>
-                <ul class="list-disc pl-20">
-               <li> Men: 2,500 kilocalories (kcals) per day</li>
+            </ul>
+
+            <p>However, the average person is generally estimated to consume:</p>
+
+            <ul>
+                <li>Men: 2,500 kilocalories (kcals) per day</li>
                 <li>Women: 2,000 kcals per day</li>
-                </ul>
-                <p>You can use the Mifflin-St Jeor equation to estimate your daily caloric expenditure: </p>
-                <ol class="list-decimal pl-20">
+            </ul>
+
+            <p>You can use the <strong>Mifflin-St Jeor equation</strong> to estimate your daily caloric expenditure:</p>
+
+            <ol>
                 <li>Calculate your resting metabolic rate (RMR) using your age, sex, height, and weight</li>
                 <li>Determine your activity level</li>
                 <li>Multiply your RMR by your activity level</li>
-                </ol>
-                <p>You can also track your weight, waist measurement, or how your clothes fit to get an idea of whether you're eating the right amount. <br>
-                It's more important to focus on the quality of your diet and where your energy comes from than the exact number of calories you consume.</p>
+            </ol>
+
+            <p>
+                You can also track your weight, waist measurement, or how your clothes fit to
+                get an idea of whether you're eating the right amount. It's more important to
+                focus on the <strong>quality</strong> of your diet and where your energy comes
+                from than the exact number of calories you consume.
+            </p>
         </div>
+
     </div>
 </body>
 </html>

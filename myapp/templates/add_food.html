@@ -1,35 +1,152 @@
-{% load static %}
+ {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Food Item</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+    <style>
+        .af-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .af-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 32px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+        .af-title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #111827;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .af-sub {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+        }
+        .af-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #4b5563;
+            margin-bottom: 6px;
+        }
+        .af-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #111827;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .af-input::placeholder {
+            color: #9ca3af;
+        }
+        .af-input:focus {
+            background: #fff;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+        .af-submit {
+            width: 100%;
+            padding: 13px;
+            margin-top: 4px;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
+        }
+        .af-submit:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+        }
+        .af-back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #4f46e5;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .af-back:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="bg-gray-80 min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('{% static 'images/calorie2.png' %}');">
-    <div class="bg-white bg-opacity-80 p-8 rounded-lg shadow-md w-96">
-        <h1 class="text-2xl font-bold mb-6 text-center">Add a Food Item</h1>
-        <form method="POST" class="space-y-4">
+<body
+    class="min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed bg-gray-100 af-page"
+    style="background-image: url('{% static 'images/calorie2.png' %}');"
+>
+    <div class="af-card">
+        <h1 class="af-title">Add a Food Item</h1>
+        <p class="af-sub">Log what you ate and its calorie count</p>
+
+        <form method="POST" class="space-y-5">
             {% csrf_token %}
+
             <div>
-                <label for="name" class="block text-gray-700 font-medium">Food Name</label>
-                <input type="text" id="name" name="name" required placeholder="e.g pizza"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <label for="name" class="af-label">Food Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="e.g. Pizza slice"
+                    class="af-input"
+                />
             </div>
+
             <div>
-                <label for="calories" class="block text-gray-700 font-medium">Calories</label>
-                <input type="number" id="calories" name="calories" required placeholder="kcal"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <label for="calories" class="af-label">Calories</label>
+                <input
+                    type="number"
+                    id="calories"
+                    name="calories"
+                    required
+                    placeholder="e.g. 285"
+                    class="af-input"
+                />
             </div>
-            <button type="submit"
-                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">Add Food</button>
+
+            <button type="submit" class="af-submit">Add Food</button>
         </form>
-        <div class="mt-4 text-center">
-            <a href="/" class="text-indigo-600 hover:underline">Back to Home</a>
-        </div>
+
+        <a href="/" class="af-back">← Back to Home</a>
     </div>
 </body>
 </html>
-

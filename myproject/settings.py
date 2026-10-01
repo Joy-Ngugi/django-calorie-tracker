@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -91,10 +92,10 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
-DATABASES = {
-    'default': dj_database_url.parse("postgresql://vacation_findet_user:QiRIo86lTQyYQsRP67Jx4q1Lanwgl9Zl@dpg-cul0imq3esus73b1olpg-a.oregon-postgres.render.com/vacation_findet")
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://vacation_findet_user:QiRIo86lTQyYQsRP67Jx4q1Lanwgl9Zl@dpg-cul0imq3esus73b1olpg-a.oregon-postgres.render.com/vacation_findet")
     
-}
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
